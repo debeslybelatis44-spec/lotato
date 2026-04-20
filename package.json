@@ -1,0 +1,11 @@
+{
+  "name": "lotato-print",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "capacitor-sunmi-printer-v7": "^0.5.7"
+  }
+}
