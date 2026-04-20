@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: '.lotato.',
+  appId: 'com.lotato.print',
   appName: 'LOTATO Print',
   webDir: 'www',
   server: {
