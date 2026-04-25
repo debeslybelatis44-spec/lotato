@@ -29,8 +29,17 @@ jobs:
       - name: Create www directory (required by Capacitor)
         run: mkdir -p www
 
-      - name: Install Capacitor Android platform
+      - name: Remove any existing android folder
+        run: rm -rf android
+
+      - name: Add Android platform
         run: npx cap add android
+
+      - name: Add printer permission to AndroidManifest.xml
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          # Insère la permission après la balise <manifest>
+          sed -i '/<manifest/a\    <uses-permission android:name="com.sunmi.permission.USE_PRINTER_SERVICE" />' $MANIFEST
 
       - name: Sync Capacitor
         run: npx cap sync
