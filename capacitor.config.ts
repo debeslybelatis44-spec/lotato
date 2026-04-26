@@ -7,11 +7,6 @@ const config: CapacitorConfig = {
   server: {
     url: 'https://lotato1.onrender.com',
     cleartext: true
-  },
-  plugins: {
-    SunmiPrinter: {
-      bindOnLoad: true
-    }
   }
 };
 
