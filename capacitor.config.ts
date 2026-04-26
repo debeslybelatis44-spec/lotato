@@ -5,8 +5,13 @@ const config: CapacitorConfig = {
   appName: 'LOTATO Print',
   webDir: 'www',
   server: {
-    url: 'https://lotato1.onrender.com',
+    url: 'https://lotato1.onrender.com/test.html',
     cleartext: true
+  },
+  plugins: {
+    SunmiPrinter: {
+      bindOnLoad: true
+    }
   }
 };
 
