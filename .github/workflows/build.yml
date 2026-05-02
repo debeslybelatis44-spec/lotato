@@ -1,1 +1,83 @@
+name: Build & Release APK - Option B (Print Server)
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LOTATO-PrintBridge-Server-Debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LOTATO-PrintBridge-Server-Release
+          path: app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/release/app-release.apk
+          name: "LOTATO PrintBridge Server ${{ github.ref_name }}"
+          body: |
+            ## LOTATO PRO - Option B (Serveur Local HTTP)
+            
+            ### Installation
+            1. Télécharger `app-debug.apk`
+            2. Installer sur Sunmi V2S
+            3. Lancer l'app → Appuyer sur **DÉMARRER LE SERVEUR**
+            
+            ### Intégration dans ton PWA
+            ```javascript
+            async function imprimerTicket(data) {
+              const response = await fetch('http://localhost:8787/print', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  type: 'ticket',
+                  header: 'LOTATO PRO',
+                  lines: data.lines,
+                  footer: data.footer
+                })
+              });
+              const result = await response.json();
+              console.log(result);
+            }
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
