@@ -1,0 +1,8 @@
+# Sunmi SDK
+-keep class woyou.aidlservice.** { *; }
+-keep class com.sunmi.** { *; }
+
+# NanoHTTPD
+-keep class fi.iki.elonen.** { *; }
+
+-keepattributes *Annotation*
